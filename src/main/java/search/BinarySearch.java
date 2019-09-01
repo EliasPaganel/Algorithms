@@ -1,5 +1,7 @@
 package search;
 
+import java.util.Objects;
+
 /**
  * Реализация бинарного поиска, по массиву типов, которые наследуют интерфейс Comparable
  *
@@ -9,9 +11,8 @@ public class BinarySearch<T extends Comparable<T>> implements Search<T> {
 
 
     public int search(T[] sortedArray, T item) {
-        if (sortedArray == null || item == null) {
-            throw new RuntimeException("sortedArray/item is null");
-        }
+        Objects.requireNonNull(sortedArray, "SortedArray is null");
+        Objects.requireNonNull(item, "Item is null");
 
         if (sortedArray.length <= 0) {
             return -1;
@@ -23,7 +24,7 @@ public class BinarySearch<T extends Comparable<T>> implements Search<T> {
     private int binarySearch(T[] array, T item, int firstIndex, int lastIndex) {
         int resultIndex = -1;
 
-        if(firstIndex <= lastIndex) {
+        if (firstIndex <= lastIndex) {
             int middleIndex = (lastIndex - firstIndex) / 2 + firstIndex;
             if (array[middleIndex].compareTo(item) == 0) {
                 resultIndex = middleIndex;
