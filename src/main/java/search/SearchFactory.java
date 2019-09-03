@@ -3,7 +3,7 @@ package search;
 public class SearchFactory {
 
     public static <T extends Comparable<T>> Search<T> getInstance(TypeSearch typeSearch) {
-        if(typeSearch == null) {
+        if (typeSearch == null) {
             throw new RuntimeException("TypeSearch is null");
         }
         Search<T> instance = null;
@@ -11,15 +11,14 @@ public class SearchFactory {
             case BINARY_SEARCH: {
                 instance = new BinarySearch<T>();
             }
-            case LINEAR_SEARCH:
-            {
-
+            case LINEAR_SEARCH: {
+                instance = new LinearSearch<T>();
             }
         }
         return instance;
     }
 
-    public static enum TypeSearch {
+    public enum TypeSearch {
         BINARY_SEARCH,
         LINEAR_SEARCH;
 
