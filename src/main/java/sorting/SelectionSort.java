@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 
 public class SelectionSort<T extends Comparable<T>> implements Sort<T> {
     @Override
-    public T[] sorting(T[] mixedArray, SortType type) {
+    public void sorting(T[] mixedArray, SortType type) {
         Objects.requireNonNull(mixedArray);
         Predicate<Integer> predicate = SortType.getPredicate(type);
         T tempItem;
@@ -20,6 +20,5 @@ public class SelectionSort<T extends Comparable<T>> implements Sort<T> {
             }
             leastIndex++;
         }
-        return mixedArray;
     }
 }

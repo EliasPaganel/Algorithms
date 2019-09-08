@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 
 public class BubbleSort<T extends Comparable<T>> implements Sort<T> {
 
-    public T[] sorting(T[] mixedArray, SortType type) {
+    public void sorting(T[] mixedArray, SortType type) {
         if (mixedArray == null || mixedArray.length == 0) {
             throw new RuntimeException("Input parameters is null");
         }
@@ -20,6 +20,5 @@ public class BubbleSort<T extends Comparable<T>> implements Sort<T> {
                 }
             }
         }
-        return mixedArray;
     }
 }
