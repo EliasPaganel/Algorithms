@@ -9,9 +9,8 @@ public interface Sort<T extends Comparable<T>> {
      *
      * @param mixedArray Массив, ктр должен быть отсортирован
      * @param type Переменная в ктр передается как сортировать массив, по убыванию - DESC, по возрастанию - ASC
-     * @return Отсортированный массив
      */
-    T[] sorting(T[] mixedArray, SortType type);
+    void sorting(T[] mixedArray, SortType type);
 
     enum SortType {
         ASC,
