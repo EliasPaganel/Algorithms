@@ -35,13 +35,14 @@ public class Main {
 //        Double[] integersMesh = {2323.0, 3.0, -1.0, 0.0, 34.0, 1.0, 8.0, 13.0, 5.0,  2.0, 21.0};
         Integer[] integersASC = {-1, 0, 1, 2, 3, 5, 8, 13, 21, 34};
         Integer[] integersDESC = {34, 21, 13, 8, 5, 3, 2, 1, 0, -1};
+        Integer[] integersMesh = {23, 66, 4, 1, 2323, 3,-333, 72, 0, -35, 6};
 //
         Sort<Integer> sort = new QuickSort<>();
 //
-        sort.sorting(integersDESC, Sort.SortType.ASC);
+        sort.sorting(integersMesh, Sort.SortType.ASC);
 
 
-        for (Integer integer : integersDESC) {
+        for (Integer integer : integersMesh) {
             System.out.print(integer + " ");
         }
 //        System.out.println(Integer.toBinaryString(-2));

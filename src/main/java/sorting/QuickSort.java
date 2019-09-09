@@ -1,5 +1,8 @@
 package sorting;
 
+import java.util.Arrays;
+import java.util.Random;
+import java.util.SplittableRandom;
 import java.util.function.Predicate;
 
 public class QuickSort<T extends Comparable<T>> implements Sort<T> {
@@ -21,23 +24,26 @@ public class QuickSort<T extends Comparable<T>> implements Sort<T> {
     }
 
     private int partition(T[] mixedArray, Predicate<Integer> order, int firstIndex, int lastIndex) {
+        int pivotIndex = new SplittableRandom().nextInt(firstIndex, lastIndex + 1);
+
+        exchange(mixedArray, pivotIndex, lastIndex);
+
         T pivot = mixedArray[lastIndex];
         int i = firstIndex - 1;
 
         for (int j = firstIndex; j < lastIndex; j++) {
             if (!order.test(mixedArray[j].compareTo(pivot))) {
                 i++;
-
-                T swapTemp = mixedArray[j];
-                mixedArray[j] = mixedArray[i];
-                mixedArray[i] = swapTemp;
+                exchange(mixedArray, j, i);
             }
         }
-
-        T swapTemp = mixedArray[i + 1];
-        mixedArray[i + 1] = mixedArray[lastIndex];
-        mixedArray[lastIndex] = swapTemp;
-
+        exchange(mixedArray, i + 1, lastIndex);
         return i + 1;
+    }
+
+    private void exchange(T[] mixedArray, int firstIndex, int secondIndex) {
+        T swapTemp = mixedArray[firstIndex];
+        mixedArray[firstIndex] = mixedArray[secondIndex];
+        mixedArray[secondIndex] = swapTemp;
     }
 }
