@@ -1,26 +1,56 @@
 package sorting;
 
+import java.lang.reflect.Array;
 import java.util.function.Predicate;
 
 public class MergeSort<T extends Comparable<T>> implements Sort<T> {
     public void sorting(T[] mixedArray, SortType type) {
-        mixedArray = execute(mixedArray, 0, mixedArray.length - 1, SortType.getPredicate(type));
+        execute(mixedArray, SortType.getPredicate(type));
     }
 
-    private T[] execute(T[] mixedArray, int firstIndex, int lastIndex, Predicate<Integer> order) {
-        if(firstIndex >= lastIndex) {
-            return mixedArray[];
+    @SuppressWarnings("unchecked")
+    private void execute(T[] mixedArray, Predicate<Integer> order) {
+        int length = mixedArray.length;
+        if (length < 2) {
+            return;
         }
 
-        int middleIndex = (lastIndex - firstIndex) / 2 + firstIndex;
+        int middle = length / 2;
 
-        T[] leftSubArr = execute(mixedArray, firstIndex, middleIndex, order);
-        T[] rightSubArr = execute(mixedArray, middleIndex + 1, lastIndex, order);
+        T[] leftHalf = (T[]) Array.newInstance(mixedArray[length - 1].getClass(), middle);
+        T[] rightHalf = (T[]) Array.newInstance(mixedArray[length - 1].getClass(), length - middle);
 
-        return merge(leftSubArr, rightSubArr, order);
+        for (int i = 0; i < middle; i++) {
+            leftHalf[i] = mixedArray[i];
+        }
+
+        for (int i = middle; i < length; i++) {
+            rightHalf[i - middle] = mixedArray[i];
+        }
+
+        execute(leftHalf, order);
+        execute(rightHalf, order);
+        merge(mixedArray, leftHalf, rightHalf, order);
     }
 
-    private T[] merge(T[] leftSubArr, T[] rightSubArr, Predicate<Integer> order) {
+    private void merge(T[] entire, T[] leftHalf, T[] rightHalf, Predicate<Integer> order) {
+        int i = 0, j = 0, k = 0;
 
+        while (i < leftHalf.length && j < rightHalf.length) {
+            if (order.test(leftHalf[i].compareTo(rightHalf[j]))) {
+                entire[k++] = rightHalf[j++];
+            } else {
+                entire[k++] = leftHalf[i++];
+            }
+        }
+
+        while (i < leftHalf.length) {
+            entire[k++] = leftHalf[i++];
+        }
+
+        while (j < rightHalf.length) {
+            entire[k++] = rightHalf[j++];
+        }
     }
 }
+

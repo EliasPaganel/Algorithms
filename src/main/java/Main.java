@@ -1,9 +1,6 @@
 import search.Search;
 import search.SearchFactory;
-import sorting.BubbleSort;
-import sorting.QuickSort;
-import sorting.SelectionSort;
-import sorting.Sort;
+import sorting.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,9 +34,9 @@ public class Main {
         Integer[] integersDESC = {34, 21, 13, 8, 5, 3, 2, 1, 0, -1};
         Integer[] integersMesh = {23, 66, 4, 1, 2323, 3,-333, 72, 0, -35, 6};
 //
-        Sort<Integer> sort = new QuickSort<>();
+        Sort<Integer> sort = new MergeSort<>();
 //
-        sort.sorting(integersMesh, Sort.SortType.ASC);
+        sort.sorting(integersMesh, Sort.SortType.DESC);
 
 
         for (Integer integer : integersMesh) {
