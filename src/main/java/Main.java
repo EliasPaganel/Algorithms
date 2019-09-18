@@ -1,3 +1,4 @@
+import data_structure.Vertex;
 import search.Search;
 import search.SearchFactory;
 import sorting.*;
@@ -42,6 +43,9 @@ public class Main {
         for (Integer integer : integersMesh) {
             System.out.print(integer + " ");
         }
+        Vertex<Integer> integerVertex = new Vertex<>();
+        integerVertex.getName();
+
 //        System.out.println(Integer.toBinaryString(-2));
 
 //        Double[] doubles = new Double[6000];
