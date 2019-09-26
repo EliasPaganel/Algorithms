@@ -31,7 +31,7 @@ public class UndirectedGraph<T extends Comparable<T>, R> implements Graph<T, R> 
 
     @Override
     public boolean hasEdge(Vertex<T> firstVertex, Vertex<T> secondVertex) {
-        if (adjacencyList.containsKey(firstVertex) && adjacencyList.containsKey(secondVertex)) {
+        if (hasVertex(firstVertex) && hasVertex(secondVertex)) {
             List<Vertex<T>> edges = adjacencyList.get(firstVertex);
             return Collections.binarySearch(edges, secondVertex, Comparator.comparing(Vertex::getValue)) >= 0;
         }
@@ -51,10 +51,10 @@ public class UndirectedGraph<T extends Comparable<T>, R> implements Graph<T, R> 
         List<Vertex<T>> firstElemEdge = adjacencyList.get(firstVertex);
         List<Vertex<T>> secondElemEdge = adjacencyList.get(secondVertex);
 
-        if(!firstElemEdge.contains(secondVertex)) {
+        if (!firstElemEdge.contains(secondVertex)) {
             firstElemEdge.add(secondVertex);
         }
-        if(!secondElemEdge.contains(firstVertex)) {
+        if (!secondElemEdge.contains(firstVertex)) {
             secondElemEdge.add(firstVertex);
         }
 
@@ -69,12 +69,12 @@ public class UndirectedGraph<T extends Comparable<T>, R> implements Graph<T, R> 
 
     @Override
     public ResultBFS<Vertex<T>> performBFS(Vertex<T> initialVertex, Predicate<Vertex<T>> vertexPredicate) {
-        if (initialVertex == null && vertexPredicate == null) {
-            return null;
+        if (initialVertex == null || vertexPredicate == null) {
+            throw new RuntimeException("initialVertex or condition is null");
         }
 
         if(!adjacencyList.containsKey(initialVertex)) {
-            throw new RuntimeException("Initial vertex is missing in the graph");
+            throw new PathNotFoundException("Initial vertex is missing in the graph");
         }
 
         vertexQueue.clear();
@@ -85,6 +85,7 @@ public class UndirectedGraph<T extends Comparable<T>, R> implements Graph<T, R> 
             return result;
         }
 
+        checkedVertices.add(initialVertex);
         fillQueue(adjacencyList.get(initialVertex));
 
         while (!vertexQueue.isEmpty()) {
@@ -97,8 +98,7 @@ public class UndirectedGraph<T extends Comparable<T>, R> implements Graph<T, R> 
                 fillQueue(adjacencyList.get(queueHead));
             }
         }
-
-        return null;
+        throw new PathNotFoundException();
     }
 
     @Override
