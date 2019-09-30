@@ -1,3 +1,6 @@
+import data_structure.Graph;
+import data_structure.ResultBFS;
+import data_structure.UndirectedGraph;
 import data_structure.Vertex;
 import search.Search;
 import search.SearchFactory;
@@ -31,20 +34,20 @@ public class Main {
 //            e.printStackTrace();
 //        }
 //        Double[] integersMesh = {2323.0, 3.0, -1.0, 0.0, 34.0, 1.0, 8.0, 13.0, 5.0,  2.0, 21.0};
-        Integer[] integersASC = {-1, 0, 1, 2, 3, 5, 8, 13, 21, 34};
-        Integer[] integersDESC = {34, 21, 13, 8, 5, 3, 2, 1, 0, -1};
-        Integer[] integersMesh = {23, 66, 4, 1, 2323, 3,-333, 72, 0, -35, 6};
+//        Integer[] integersASC = {-1, 0, 1, 2, 3, 5, 8, 13, 21, 34};
+//        Integer[] integersDESC = {34, 21, 13, 8, 5, 3, 2, 1, 0, -1};
+//        Integer[] integersMesh = {23, 66, 4, 1, 2323, 3,-333, 72, 0, -35, 6};
+////
+//        Sort<Integer> sort = new MergeSort<>();
+////
+//        sort.sorting(integersMesh, Sort.SortType.DESC);
 //
-        Sort<Integer> sort = new MergeSort<>();
 //
-        sort.sorting(integersMesh, Sort.SortType.DESC);
-
-
-        for (Integer integer : integersMesh) {
-            System.out.print(integer + " ");
-        }
-        Vertex<Integer> integerVertex = new Vertex<>();
-        integerVertex.getName();
+//        for (Integer integer : integersMesh) {
+//            System.out.print(integer + " ");
+//        }
+//        Vertex<Integer> integerVertex = new Vertex<>();
+//        integerVertex.getName();
 
 //        System.out.println(Integer.toBinaryString(-2));
 
@@ -88,6 +91,26 @@ public class Main {
 //                doubles,
 //                Double::sum,
 //                () -> 0.0);
+        Vertex<Integer> firstVert = new Vertex<>("", 1);
+        Vertex<Integer> secondVert = new Vertex<>("", 2);
+        Vertex<Integer> thirdVert = new Vertex<>("", 3);
+        Vertex<Integer> fourthVert = new Vertex<>("", 4);
+        Vertex<Integer> fifthVert = new Vertex<>("", 5);
+
+        Graph<Integer> graph = new UndirectedGraph<>();
+
+//        graph.addEdge(secondVert, thirdVert);
+//        graph.addEdge(firstVert, thirdVert);
+//        graph.addEdge(fourthVert, thirdVert);
+//        graph.addEdge(fifthVert, fourthVert);
+        graph.addEdge(secondVert, thirdVert);
+        graph.addEdge(firstVert, thirdVert);
+        graph.addEdge(fifthVert, thirdVert);
+        graph.addEdge(fifthVert, fourthVert);
+        graph.addEdge(fourthVert, firstVert);
+        ResultBFS<Vertex<Integer>> result = graph.performBFS(secondVert, fourthVert);
+        System.out.println(result.getPath());
+
 
     }
 }

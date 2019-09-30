@@ -1,12 +1,10 @@
 package data_structure;
 
-import lombok.AllArgsConstructor;
-
 import java.util.LinkedList;
 import java.util.List;
 
 
-@AllArgsConstructor
+
 public class BFSResult<V> {
     private int numberOfSteps;
     private List<V> vertexList;

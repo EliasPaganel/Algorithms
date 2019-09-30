@@ -1,10 +1,10 @@
 package data_structure;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-public class UndirectedGraph<T extends Comparable<T>, R> implements Graph<T, R> {
+public class UndirectedGraph<T extends Comparable<T>> implements Graph<T> {
 
     private Map<Vertex<T>, List<Vertex<T>>> adjacencyList;
 
@@ -80,25 +80,46 @@ public class UndirectedGraph<T extends Comparable<T>, R> implements Graph<T, R> 
         vertexQueue.clear();
         checkedVertices.clear();
 
-        ResultBFS<Vertex<T>> result = new ResultBFS<>(0, Arrays.asList(initialVertex));
-        if(vertexPredicate.test(initialVertex)) {
-            return result;
-        }
-
         checkedVertices.add(initialVertex);
-        fillQueue(adjacencyList.get(initialVertex));
+        vertexQueue.offer(initialVertex);
 
         while (!vertexQueue.isEmpty()) {
             Vertex<T> queueHead = vertexQueue.poll();
+//            result.addVertexToPath(queueHead);
             if (vertexPredicate.test(queueHead)) {
-                result.incrementNumberOfSteps();
-                result.addVertexToPath(queueHead);
-                return result;
+                return buildRoute(queueHead);
             } else {
-                fillQueue(adjacencyList.get(queueHead));
+                fillQueue(queueHead);
             }
         }
         throw new PathNotFoundException();
+    }
+
+    ResultBFS<Vertex<T>> buildRoute(Vertex<T> foundVertex) {
+        ResultBFS<Vertex<T>> result = new ResultBFS<>();
+
+        Vertex<T> currentVertex = foundVertex;
+        result.addVertexToPath(currentVertex);
+
+        while (currentVertex.getRank() > 0) {
+            int prevRank = currentVertex.getRank() - 1;
+            List<Vertex<T>> previousRankVertices = checkedVertices.stream()
+                    .filter(vertex -> vertex.getRank() == prevRank)
+                    .collect(Collectors.toList());
+
+            if (!previousRankVertices.isEmpty()) {
+                for (Vertex<T> previousRankVertex : previousRankVertices) {
+                    if(adjacencyList.get(previousRankVertex).contains(currentVertex)) {
+                        result.addVertexToPath(previousRankVertex);
+                        currentVertex = previousRankVertex;
+                        break;
+                    }
+                }
+            }
+        }
+
+        Collections.reverse(result.getPath());
+        return result;
     }
 
     @Override
@@ -108,11 +129,13 @@ public class UndirectedGraph<T extends Comparable<T>, R> implements Graph<T, R> 
 
     /**
      * Заполняем очередь обработки ранее не обрабатывавшимися узлами
-     * @param vertexList список узлов, ктр после проверки будут добавлены в очередь
+     * @param parentVertex родительский узел, у которого берем список дочерних узлов, которые после проверки будут добавлены в очередь
      */
-    private void fillQueue(List<Vertex<T>> vertexList) {
-        for (Vertex<T> vertex : vertexList) {
+    private void fillQueue(Vertex<T> parentVertex) {
+        List<Vertex<T>> childVertices = adjacencyList.get(parentVertex);
+        for (Vertex<T> vertex : childVertices) {
             if (!checkedVertices.contains(vertex)) {
+                vertex.setRank(parentVertex.getRank() + 1);
                 checkedVertices.add(vertex);
                 vertexQueue.offer(vertex);
             }

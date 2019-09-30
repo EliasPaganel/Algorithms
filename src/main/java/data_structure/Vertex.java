@@ -5,12 +5,17 @@ import lombok.*;
 import java.util.Objects;
 
 
-@AllArgsConstructor
-@NoArgsConstructor
 public class Vertex<T extends Comparable> {
 
     private String name;
     private T value;
+    private int rank;
+
+    public Vertex(String name, T value) {
+        this.name = name;
+        this.value = value;
+        this.rank = 0;
+    }
 
     public String getName() {
         return name;
@@ -28,6 +33,14 @@ public class Vertex<T extends Comparable> {
         this.value = value;
     }
 
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,4 +55,12 @@ public class Vertex<T extends Comparable> {
         return Objects.hash(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "Vertex{" +
+                "name='" + name + '\'' +
+                ", value=" + value +
+                ", rank=" + rank +
+                '}';
+    }
 }

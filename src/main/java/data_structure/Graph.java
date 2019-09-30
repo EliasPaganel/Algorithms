@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public interface Graph<T extends Comparable<T>, R> {
+public interface Graph<T extends Comparable<T>> {
 
     boolean hasVertex(Vertex<T> vertex);
     boolean hasEdge(Vertex<T> firstVertex, Vertex<T> secondVertex);
