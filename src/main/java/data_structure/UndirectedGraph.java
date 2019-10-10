@@ -15,7 +15,7 @@ public class UndirectedGraph<T extends Comparable<T>> implements Graph<T> {
     public UndirectedGraph() {
         this.adjacencyList = new HashMap<>();
         this.checkedVertices = new HashSet<>();
-        this.vertexQueue =  new ArrayDeque<>();
+        this.vertexQueue = new ArrayDeque<>();
     }
 
     public UndirectedGraph(Map<Vertex<T>, List<Vertex<T>>> adjacencyList, Set<Vertex<T>> checkedVertices, Queue<Vertex<T>> vertexQueue) {
@@ -73,7 +73,7 @@ public class UndirectedGraph<T extends Comparable<T>> implements Graph<T> {
             throw new RuntimeException("initialVertex or condition is null");
         }
 
-        if(!adjacencyList.containsKey(initialVertex)) {
+        if (!adjacencyList.containsKey(initialVertex)) {
             throw new PathNotFoundException("Initial vertex is missing in the graph");
         }
 
@@ -95,7 +95,13 @@ public class UndirectedGraph<T extends Comparable<T>> implements Graph<T> {
         throw new PathNotFoundException();
     }
 
-    ResultBFS<Vertex<T>> buildRoute(Vertex<T> foundVertex) {
+    /**
+     * Построение маршрута от начального узла до искомого, путем прохода от искомого к начальному
+     *
+     * @param foundVertex искомый узел
+     * @return объект, ктр содержил в себе построенный маршрут и кол-во шагов от А до В
+     */
+    private ResultBFS<Vertex<T>> buildRoute(Vertex<T> foundVertex) {
         ResultBFS<Vertex<T>> result = new ResultBFS<>();
 
         Vertex<T> currentVertex = foundVertex;
@@ -109,7 +115,7 @@ public class UndirectedGraph<T extends Comparable<T>> implements Graph<T> {
 
             if (!previousRankVertices.isEmpty()) {
                 for (Vertex<T> previousRankVertex : previousRankVertices) {
-                    if(adjacencyList.get(previousRankVertex).contains(currentVertex)) {
+                    if (adjacencyList.get(previousRankVertex).contains(currentVertex)) {
                         result.addVertexToPath(previousRankVertex);
                         currentVertex = previousRankVertex;
                         break;
